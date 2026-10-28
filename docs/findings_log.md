@@ -37,3 +37,13 @@ Running record of answers, each traceable to a SQL file. Source for the final me
 - Censoring trap caught: Jan d30 ($0.27) < Jan d7 ($0.50) because only Jan 1-2 users were eligible -> compare horizons within fully eligible cohorts only. [sql/23]
 - By acquisition channel (n=173,023, all with full 30 days): d30 LTV $1.11 (Direct) to $1.48 (Paid Search). Paid highest via basket size; its value grows +135% after day 0 -> paid users return via other channels to buy; last-touch undervalues paid. ~156 paid buyers -> needs CIs. [sql/24]
 - No cost data: LTV is the ceiling for acquisition spend, not ROI.
+
+## Q4 — Which channels drive purchases?
+- Three models compared on the same $340,647 (each reconciles). Raw last-touch credits Referral 53.5% (vs 23.1% first-touch). [sql/25]
+- 60.2% of last-touch Referral revenue ($109,819, ~32% of all revenue) is self-referral from the store's own domains; only 2.3% verifiably external. [sql/26]
+- Sessions model v2 added session_source; regression check passed (all sql/11 metrics unchanged). [sql/10-11]
+- Cleaned attribution (self-referrals carry forward to prior real channel): Organic 42.0% clean last-touch, 44.8% clean LND; Referral 26.5% (mostly <Other>, unverifiable). [sql/27]
+- Organic Search is #1 under every model (29-45%) -> most robust channel finding.
+- Paid Search small (1.4-2.5%) and undervalued by last-touch (~half its first-touch share); consistent with Q3.
+- ~9-13% of revenue unattributable (self-referral-only or not captured).
+- Recommendations: add own domains to GA4 unwanted referrals; protect organic/SEO; don't judge Paid on last-touch.
