@@ -1,14 +1,14 @@
--- 10_build_sessions.sql
+-- 10_build_sessions.sql  (v2: adds session_source)
 -- Purpose: build one row per session (user_pseudo_id + ga_session_id) with segments
 --          and funnel flags. Foundation for funnel, cohorts, LTV, attribution, trends.
 -- Rules (see docs/metric_dictionary.md):
 --   * Session key = user_pseudo_id + ga_session_id.
 --   * Channel from medium; <Other>/(data deleted) -> 'Unknown'; NULL -> '(not captured)'.
---   * channel_session = first non-null event-level medium in the session (last-touch basis).
+--   * session_medium/session_source = taken TOGETHER from the first event in the session
+--     that has a medium (last-touch basis). v2 added session_source (2026-10-28) to test
+--     referral inflation (sql/25-26).
 --   * channel_first_touch = traffic_source.medium (user's first acquisition).
--- Storage: CLUSTER BY, not PARTITION BY. Sandbox partitions expire 60 days after the
---          partition DATE, so 2020-21 partitions were deleted on write (table was empty).
--- Cost: ~1.64 GB, one-time.
+-- Storage: CLUSTER BY, not PARTITION BY (sandbox partition expiry deleted 2020-21 partitions).
 CREATE OR REPLACE TABLE `ga4-storefront-analytics.p3_storefront.sessions`
 CLUSTER BY session_date
 AS
@@ -23,7 +23,8 @@ WITH events AS (
     traffic_source.medium             AS first_touch_medium,
     (SELECT value.int_value    FROM UNNEST(event_params) WHERE key = 'ga_session_id')     AS ga_session_id,
     (SELECT value.int_value    FROM UNNEST(event_params) WHERE key = 'ga_session_number') AS ga_session_number,
-    (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'medium')            AS event_medium
+    (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'medium')            AS event_medium,
+    (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'source')            AS event_source
   FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`
   WHERE _TABLE_SUFFIX BETWEEN '20201101' AND '20210131'
 ),
@@ -37,7 +38,10 @@ sessions AS (
     ANY_VALUE(device_category)        AS device_category,
     ANY_VALUE(country)                AS country,
     ANY_VALUE(first_touch_medium)     AS first_touch_medium,
-    ARRAY_AGG(event_medium IGNORE NULLS ORDER BY event_timestamp LIMIT 1)[SAFE_OFFSET(0)] AS session_medium,
+    ARRAY_AGG(
+      IF(event_medium IS NOT NULL, STRUCT(event_medium AS medium, event_source AS source), NULL)
+      IGNORE NULLS ORDER BY event_timestamp LIMIT 1
+    )[SAFE_OFFSET(0)]                                 AS ms,
     COUNT(*)                                          AS events,
     COUNTIF(event_name = 'session_start')             AS session_start_events,
     MAX(IF(event_name = 'view_item',        1, 0))    AS has_view_item,
@@ -51,14 +55,16 @@ sessions AS (
 )
 SELECT
   CONCAT(user_pseudo_id, '-', CAST(ga_session_id AS STRING)) AS session_key,
-  *,
+  * EXCEPT (ms),
+  ms.medium AS session_medium,
+  ms.source AS session_source,
   CASE
-    WHEN session_medium IS NULL                          THEN '(not captured)'
-    WHEN session_medium = 'organic'                      THEN 'Organic Search'
-    WHEN session_medium = '(none)'                       THEN 'Direct'
-    WHEN session_medium = 'referral'                     THEN 'Referral'
-    WHEN session_medium = 'cpc'                          THEN 'Paid Search'
-    WHEN session_medium IN ('<Other>', '(data deleted)') THEN 'Unknown'
+    WHEN ms.medium IS NULL                          THEN '(not captured)'
+    WHEN ms.medium = 'organic'                      THEN 'Organic Search'
+    WHEN ms.medium = '(none)'                       THEN 'Direct'
+    WHEN ms.medium = 'referral'                     THEN 'Referral'
+    WHEN ms.medium = 'cpc'                          THEN 'Paid Search'
+    WHEN ms.medium IN ('<Other>', '(data deleted)') THEN 'Unknown'
     ELSE 'Other'
   END AS channel_session,
   CASE
