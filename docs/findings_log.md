@@ -28,3 +28,12 @@ Running record of answers, each traceable to a SQL file. Source for the final me
 - Holiday cohorts (Dec) W1 2.4-3.1% vs Nov 4.2-5.7%; retention bumps across Dec cohorts all land in week of Jan 4 -> partly a calendar effect. [sql/19]
 - First-week buyers retain ~6x better than browsers (W1 21.2% vs 3.6%; W8 1.9% vs 0.3%). Correlation, not causation; W1 partly order tracking. Not added to opportunity sizing. [sql/20]
 - Orders table built: 5,372 orders / $340,647 / 4,419 buyers; 100% joined to sessions. [sql/21-22]
+
+## Q3 — What is a customer worth?
+- Observed (not predicted) LTV for truly new users; per-user horizon eligibility. [sql/23]
+- Clean read (Nov cohort, fully eligible): d0 $0.74 | d7 $1.01 | d30 $1.42 | d60 $1.50 -> 49% of 60-day value on day 0, 95% by day 30. [sql/23]
+- Buyer worth ~$80 in 30 days (> $63 AOV); ~11% of new buyers reorder within 30 days. [sql/23]
+- Day-0 value per new user fell Nov $0.74 -> Dec $0.60 -> Jan $0.30 (explain in Q5). [sql/23]
+- Censoring trap caught: Jan d30 ($0.27) < Jan d7 ($0.50) because only Jan 1-2 users were eligible -> compare horizons within fully eligible cohorts only. [sql/23]
+- By acquisition channel (n=173,023, all with full 30 days): d30 LTV $1.11 (Direct) to $1.48 (Paid Search). Paid highest via basket size; its value grows +135% after day 0 -> paid users return via other channels to buy; last-touch undervalues paid. ~156 paid buyers -> needs CIs. [sql/24]
+- No cost data: LTV is the ceiling for acquisition spend, not ROI.
