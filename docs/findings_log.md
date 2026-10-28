@@ -21,3 +21,10 @@ Running record of answers, each traceable to a SQL file. Source for the final me
 - Obfuscated dataset; users are cookies; 92-day window incl. holidays.
 - Unusually flat device/country rates may reflect obfuscation.
 - Referral conversion likely inflated by self-referral (to test in Q4).
+
+## Q2 — Do customers come back?
+- Weekly cohorts of truly new users (ga_session_number = 1; left- and right-censoring handled); 13 cohorts, 258,897 users (cf. 257,314 first_visit users). [sql/19]
+- Retention very low: W1 2.4-5.7% | W4 0.5-1.8% | W8 0.2-0.4% | W12 0.08% -> acquisition-driven store. [sql/19]
+- Holiday cohorts (Dec) W1 2.4-3.1% vs Nov 4.2-5.7%; retention bumps across Dec cohorts all land in week of Jan 4 -> partly a calendar effect. [sql/19]
+- First-week buyers retain ~6x better than browsers (W1 21.2% vs 3.6%; W8 1.9% vs 0.3%). Correlation, not causation; W1 partly order tracking. Not added to opportunity sizing. [sql/20]
+- Orders table built: 5,372 orders / $340,647 / 4,419 buyers; 100% joined to sessions. [sql/21-22]
