@@ -1,7 +1,7 @@
 -- 33_rpt_attribution.sql
 -- Purpose: dashboard source. Revenue by channel under first-touch, raw last-touch,
 --          and cleaned last-touch (self-referrals skipped; logic from sql/27).
--- Result (2026-10-29): ~33 MB scanned; 20 rows -> Google Sheet p3_rpt_attribution.
+-- Result (2026-10-29): ~33 MB scanned; 20 rows -> Google Sheet rpt_attribution.
 -- Reconciled in Sheets: total $1,021,941 = 3 models x $340,647.
 WITH s AS (
   SELECT

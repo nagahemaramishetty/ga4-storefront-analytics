@@ -2,7 +2,7 @@
 -- Purpose: dashboard source. One row per day x device x channel x country x visitor type,
 --          funnel v2 counts only (no rates), so the dashboard can compute ratio-of-sums.
 -- Self-referral sessions get their own channel label so they don't inflate "Referral".
--- Result (2026-10-29): ~32 MB scanned; 15,112 rows -> Google Sheet p3_rpt_daily_funnel.
+-- Result (2026-10-29): ~32 MB scanned; 15,112 rows -> Google Sheet rpt_daily_funnel.
 -- Reconciled in Sheets: sessions 360,129 | funnel_purchase 4,698 | purchasing_sessions 4,848.
 SELECT
   session_date,

@@ -1,7 +1,7 @@
 -- 32_rpt_daily_orders.sql
 -- Purpose: dashboard source. Orders and revenue per day x device x channel x country x visitor type.
 -- Segments come from the order's session. revenue_complete = FALSE for Jan 26-31 (tracking gap, sql/29-30).
--- Result (2026-10-29): ~29 MB scanned; 2,697 rows -> Google Sheet p3_rpt_daily_orders.
+-- Result (2026-10-29): ~29 MB scanned; 2,697 rows -> Google Sheet rpt_daily_orders.
 -- Reconciled in Sheets: orders 5,372 | revenue $340,647 | unverified 906.
 SELECT
   o.order_date,
