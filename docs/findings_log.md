@@ -56,3 +56,9 @@ Running record of answers, each traceable to a SQL file. Source for the final me
 - Conversion drives revenue swings: Dec 7 vs Jan 4 sessions -25%, revenue -84%. [sql/28]
 - New-session share 67% -> 81% over holidays (mix effect; new visitors convert 0.67% vs 2.97%). [sql/28, sql/16]
 - Revenue tracking gap: $0 orders ~4% normally; from Jan 26 rises 60% -> 100% by Jan 31. 282 orders, ~$16K revenue missing (estimate). Revenue/AOV Jan 26-31 excluded from trends; orders/conversion valid. Official revenue ($340,647) slightly understated -> AOV, Jan LTV, and Q1 sizing are conservative. [sql/29-30]
+
+## Python validation (notebooks/01_validation_and_charts.ipynb)
+- All 11 headline numbers re-computed in pandas match SQL exactly; attribution carry-forward (sql/27) rebuilt with groupby + ffill matches exactly.
+- New vs returning conversion gap 2.30 pts (95% CI 2.19 to 2.41) -> real.
+- Paid vs Organic 30-day LTV +$0.17 (95% bootstrap CI -$0.26 to +$0.64) -> not significant; do NOT claim Paid Search users are most valuable.
+- Charts: images/01_funnel.png, 02_new_vs_returning.png, 03_weekly_trends.png, 04_attribution.png

@@ -224,3 +224,8 @@ __marimo__/
 .env
 *-key.json
 credentials*.json
+
+# Anaconda Toolbox
+anaconda_project*/
+.virtual_documents/
+.virtual_documents/
