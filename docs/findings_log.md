@@ -47,3 +47,12 @@ Running record of answers, each traceable to a SQL file. Source for the final me
 - Paid Search small (1.4-2.5%) and undervalued by last-touch (~half its first-touch share); consistent with Q3.
 - ~9-13% of revenue unattributable (self-referral-only or not captured).
 - Recommendations: add own domains to GA4 unwanted referrals; protect organic/SEO; don't judge Paid on last-touch.
+
+## Q5 — How did performance change over time?
+- Weekly KPIs (13 full weeks) with WoW change; revenue decomposed into sessions x conversion x AOV. [sql/28]
+- Ramp: Nov 2 $21.8K -> Dec 7 peak $59.4K (sessions +55%, conversion 1.00% -> 1.99%). [sql/28]
+- Cliff: Dec 21 week -69% (sessions -34%, conv -0.59 pts, AOV -17%) -> shipping cutoff. [sql/28]
+- January: traffic recovered (+42% week of Jan 4) but conversion fell to 0.56% -> explains Jan new users worth half of Nov (sql/23). [sql/28]
+- Conversion drives revenue swings: Dec 7 vs Jan 4 sessions -25%, revenue -84%. [sql/28]
+- New-session share 67% -> 81% over holidays (mix effect; new visitors convert 0.67% vs 2.97%). [sql/28, sql/16]
+- Revenue tracking gap: $0 orders ~4% normally; from Jan 26 rises 60% -> 100% by Jan 31. 282 orders, ~$16K revenue missing (estimate). Revenue/AOV Jan 26-31 excluded from trends; orders/conversion valid. Official revenue ($340,647) slightly understated -> AOV, Jan LTV, and Q1 sizing are conservative. [sql/29-30]

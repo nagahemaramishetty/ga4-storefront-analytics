@@ -55,3 +55,9 @@ Every metric states numerator, denominator, grain, and rules. Rules marked [Q0] 
 ## Open items
 - Session-level channel coverage (% of sessions with a known source/medium).
 - Self-referral `shop.googlemerchandisestore.com` (8.5% of events): measure effect on channel shares.
+
+## Data rules added after Q0
+5. Revenue and AOV for Jan 26-31, 2021 are incomplete ($0 orders 60-100% vs ~4% normal); exclude from revenue trends; orders and conversion remain valid. Estimated ~$16K missing. [sql/29-30]
+6. Check revenue for 0 as well as NULL when profiling.
+7. Self-referral sessions (source ends with googlemerchandisestore.com) are not a channel; attribution carries forward to the prior real channel. [sql/26-27]
+8. add_to_cart is under-tracked; excluded as a required funnel step (funnel v2). [sql/13-15]
